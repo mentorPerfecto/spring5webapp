@@ -18,15 +18,14 @@ public class Book {
     @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id"))
 
-
-    private Set<Author> author;
+    private Set<Author> authors = new HashSet<>();
 
     public Set<Author> getAuthor() {
-        return author;
+        return authors;
     }
 
     public void setAuthor(Set<Author> author) {
-        this.author = author;
+        this.authors = author;
     }
 
     public Long getId() {
@@ -60,7 +59,7 @@ public class Book {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", isbn='" + isbn + '\'' +
-                ", author=" + author +
+                ", authors=" + authors +
                 '}';
     }
 
