@@ -2,12 +2,12 @@ package guru.springframework.spring6webapp.boostrap;
 
 import guru.springframework.spring6webapp.domain.Author;
 import guru.springframework.spring6webapp.domain.Book;
+import guru.springframework.spring6webapp.domain.Publisher;
 import guru.springframework.spring6webapp.repositories.AuthorRepository;
 import guru.springframework.spring6webapp.repositories.BookRepository;
+import guru.springframework.spring6webapp.repositories.PublisherRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class BoostrapData implements CommandLineRunner {
@@ -15,10 +15,12 @@ public class BoostrapData implements CommandLineRunner {
 
     private final AuthorRepository authorRepository;
     private final BookRepository bookRepository;
+    private final PublisherRepository publisherRepository;
 
-    public BoostrapData(AuthorRepository authorRepository, BookRepository bookRepository) {
+    public BoostrapData(AuthorRepository authorRepository, BookRepository bookRepository, PublisherRepository publisherRepository) {
         this.authorRepository = authorRepository;
         this.bookRepository = bookRepository;
+        this.publisherRepository = publisherRepository;
     }
 
 
@@ -49,16 +51,32 @@ public class BoostrapData implements CommandLineRunner {
 
         ericSaved.getBooks().add(dddSaved);
         rodSaved.getBooks().add(noEJBSaved);
+        dddSaved.getAuthors().add(ericSaved);
+        noEJBSaved.getAuthors().add(rodSaved);
 
+
+        Publisher marshall = new Publisher();
+        marshall.setPublisherName("Marshall Ltd");
+        marshall.setAddress("Nigeria");
+        marshall.setCity("Lekki");
+        marshall.setZip("1234567");
+        marshall.setState("Lagos");
+        Publisher marshallSaved = publisherRepository.save(marshall);
+        publisherRepository.save(marshallSaved);
+        dddSaved.setPublisher(marshallSaved);
+        noEJBSaved.setPublisher(marshallSaved);
 
 
         authorRepository.save(ericSaved);
         authorRepository.save(rodSaved);
+        bookRepository.save(dddSaved);
+        bookRepository.save(noEJBSaved);
+
 
         System.out.println("In Bootstrap");
         System.out.println("Author Count: " + authorRepository.count());
         System.out.println("Book Count: " + bookRepository.count());
-
+        System.out.println("Publisher Count: " + publisherRepository.count());
 
     }
 }

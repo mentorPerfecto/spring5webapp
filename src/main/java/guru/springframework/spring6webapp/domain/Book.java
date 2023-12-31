@@ -1,6 +1,7 @@
 package guru.springframework.spring6webapp.domain;
 
 import jakarta.persistence.*;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,9 +10,11 @@ public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private  Long id;
-    private  String title;
-    private  String isbn;
+    private Long id;
+    private String title;
+    private String isbn;
+    @ManyToOne
+    private Publisher publisher;
 
 
     @ManyToMany
@@ -20,13 +23,25 @@ public class Book {
 
     private Set<Author> authors = new HashSet<>();
 
-    public Set<Author> getAuthor() {
+
+
+    public Set<Author> getAuthors() {
         return authors;
     }
 
-    public void setAuthor(Set<Author> author) {
-        this.authors = author;
+    public void setAuthors(Set<Author> authors) {
+        this.authors = authors;
     }
+
+
+    public Publisher getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
+    }
+
 
     public Long getId() {
         return id;
